@@ -1,0 +1,59 @@
+.container {
+  width: 80%;
+  margin: 0 auto;
+  max-width: 680px;
+  padding-bottom: 2rem;
+
+  .c__logo {
+    margin: 3rem 0;
+  }
+
+  .c__posts {
+    list-style-type: none;
+
+    .p__post {
+      margin-bottom: 2rem;
+
+      .p__title {
+        font-size: 2rem;
+        font-weight: bold;
+        transition: color 0.2s;
+      }
+
+      .p__description {
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: var(--body);
+        margin: 0.6rem 0 0.8rem;
+      }
+
+      .p__date, .p__author {
+        color: var(--info);
+        font-size: 0.9rem;
+      }
+
+      .p__author {
+        margin-left: 0.8rem;
+      }
+
+      &:hover {
+        .p__title {
+          color: var(--highlight);
+        }
+      }
+    }
+  }
+
+  .c__load_more {
+    border: 0;
+    background: none;
+    color:  var(--highlight);
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
+  }
+}
