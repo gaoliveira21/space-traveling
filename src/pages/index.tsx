@@ -4,8 +4,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Posts | SpaceTraveling</title>
       </Head>
 
       <h1>Hello</h1>
