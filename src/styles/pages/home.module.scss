@@ -30,6 +30,10 @@
       .p__date, .p__author {
         color: var(--info);
         font-size: 0.9rem;
+
+        svg {
+          margin-right: 0.2rem;
+        }
       }
 
       .p__author {

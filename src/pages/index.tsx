@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Prismic from '@prismicio/client'
+import { FiCalendar, FiUser } from 'react-icons/fi'
 
 import { prismic } from '../services/prismic'
 
@@ -62,8 +63,14 @@ export default function Home({ posts, nextPage }: HomeProps) {
                 <strong className={styles.p__title}>{post.title}</strong>
                 <p className={styles.p__description}>{post.subtitle}</p>
                 <div>
-                  <time className={styles.p__date}>{post.publishedAt}</time>
-                  <span className={styles.p__author}>{post.author}</span>
+                  <time className={styles.p__date}>
+                    <FiCalendar />
+                    {post.publishedAt}
+                  </time>
+                  <span className={styles.p__author}>
+                    <FiUser />
+                    {post.author}
+                  </span>
                 </div>
               </a>
             </li>
