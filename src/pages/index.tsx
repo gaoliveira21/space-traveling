@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Prismic from '@prismicio/client'
 
-import styles from '@/src/styles/pages/home.module.scss'
 import { prismic } from '../services/prismic'
+
+import styles from '@/src/styles/pages/home.module.scss'
 
 type Post = {
   slug: string
@@ -15,9 +17,35 @@ type Post = {
 
 type HomeProps = {
   posts: Post[]
+  nextPage: string | null
 }
 
-export default function Home({ posts }: HomeProps) {
+export default function Home({ posts, nextPage }: HomeProps) {
+  const [postList, setPostList] = useState<Post[]>(posts)
+  const [nextPageURL, setNextPageURL] = useState<string>(nextPage)
+  const [hasMore, setHasMore] = useState<boolean>(!!nextPage)
+
+  const handleLoadMore = async () => {
+    const response = await fetch(nextPageURL)
+    const data = await response.json()
+
+    const loadedPosts: Post[] = data.results.map(post => ({
+      slug: post.uid,
+      title: post.data.title,
+      subtitle: post.data.subtitle,
+      author: post.data.author,
+      publishedAt: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      })
+    }))
+
+    setNextPageURL(data.next_page)
+    setHasMore(!!data.next_page)
+    setPostList(prevList => ([...prevList, ...loadedPosts]))
+  }
+
   return (
     <>
       <Head>
@@ -28,7 +56,7 @@ export default function Home({ posts }: HomeProps) {
         <img className={styles.c__logo} src="/images/logo.svg" alt="SpaceTraveling" />
 
         <ul className={styles.c__posts}>
-          {posts.map(post => (
+          {postList.map(post => (
             <li key={post.slug} className={styles.p__post}>
               <a href="#!">
                 <strong className={styles.p__title}>{post.title}</strong>
@@ -42,7 +70,15 @@ export default function Home({ posts }: HomeProps) {
           ))}
         </ul>
 
-        <button type="button" className={styles.c__load_more}>Carregar mais posts</button>
+        {hasMore && (
+          <button
+            type="button"
+            className={styles.c__load_more}
+            onClick={handleLoadMore}
+          >
+            Carregar mais posts
+          </button>
+        )}
       </div>
     </>
   )
@@ -72,6 +108,7 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       posts,
+      nextPage: response.next_page
     },
     revalidate: 60 * 5 // 5 minutes
   }
