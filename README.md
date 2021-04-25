@@ -16,7 +16,6 @@ Este projeto consiste em um blog tradicional, seu objetivo principal é praticar
 
 - [x] Listagem de posts
 - [X] Paginação dos posts
-- [ ] Página com o conteúdo completo do post
 
 ## :hammer_and_wrench: Tecnologias
 
